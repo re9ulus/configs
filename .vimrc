@@ -24,6 +24,9 @@ Plugin 'vim-airline/vim-airline'
 " base-16
 Plugin 'chriskempson/base16-vim'
 
+" Supertab
+Plugin 'ervandew/supertab'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 """
