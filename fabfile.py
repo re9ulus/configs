@@ -2,7 +2,7 @@ from fabric import Connection
 from fabric import task
 
 
-IP = '176.9.18.248'
+IP = ''
 USER = 're9ulus'
 
 
@@ -45,11 +45,11 @@ def create_conda_env(c):
 
 @task
 def install_vim(c):
-    config_repo = 'git@github.com:re9ulus/configs.git'
     c.run('sudo apt-get install vim', pty=True)
-    c.run('git clone {}'.format(config_repo))
-    c.run('mv ./configs/.vimrc ~/.vimrc')
-    c.run('rm -r configs')
+    c.put('.vimrc', '/home/{}/.vimrc'.format(USER))
+    c.run('git clone https://github.com/VundleVim/Vundle.vim.git /home/{}/.vim/bundle/Vundle.vim'.format(USER))
+    c.run('vim +PluginInstall +qall')
+
 
 # def list_files():
 #     connection = Connection(IP, USER)
