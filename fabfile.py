@@ -69,3 +69,14 @@ def setup_jupyter(c):
              "c.NotebookApp.port = 9999\n"
 
     c.run('echo "{config}" >> {path}jupyter_notebook_config.py'.format(config=config, path=jupyter_folder))
+
+
+@task
+def setup_docker(c):
+    c.run('sudo apt install apt-transport-https ca-certificates curl software-properties-common', pty=True)
+    c.run('curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -', pty=True)
+    c.run('sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"', pty=True)
+    c.run('sudo apt update', pty=True)
+    c.run('apt-cache policy docker-ce')
+    c.run('sudo apt install docker-ce', pty=True)
+    c.run('sudo usermod -aG docker ${USER}', pty=True)
