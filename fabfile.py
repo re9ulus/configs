@@ -51,6 +51,21 @@ def install_vim(c):
     c.run('vim +PluginInstall +qall')
 
 
-# def list_files():
-#     connection = Connection(IP, USER)
-#     connection.run('ls -a')
+@task
+def setup_jupyter(c):
+    env_name = 'ml'
+    jupyter_folder = '/home/{user}/.jupyter/'.format(user=USER)
+    prefix = 'source /home/{user}/miniconda3/bin/activate ml && '.format(user=USER)
+    c.run(prefix + 'jupyter notebook --generate-config')
+    c.run(prefix + 'jupyter notebook password', pty=True)
+    
+    c.run('openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout {path}mykey.key -out {path}mycert.pem'.format(
+        path=jupyter_folder
+    ))
+    config = "c.NotebookApp.certfile = u'{path}mycert.pem'\n".format(path=jupyter_folder) + \
+             "c.NotebookApp.keyfile = u'{path}mykey.key'\n".format(path=jupyter_folder) + \
+             "c.NotebookApp.ip = '*'\n" + \
+             "c.NotebookApp.open_browser = False\n" + \
+             "c.NotebookApp.port = 9999\n"
+
+    c.run('echo "{config}" >> {path}jupyter_notebook_config.py'.format(config=config, path=jupyter_folder))

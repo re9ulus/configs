@@ -3,3 +3,4 @@ scikit-learn
 catboost
 xgboost
 lightgbm
+jupyter
