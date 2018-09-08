@@ -21,7 +21,7 @@ def update(c):
 
 @task
 def install_base(c):
-    c.run('sudo apt-get install tmux vim build-essential', pty=True)
+    c.run('sudo apt-get install tmux vim build-essential unzip', pty=True)
 
 
 @task
@@ -80,3 +80,11 @@ def setup_docker(c):
     c.run('apt-cache policy docker-ce')
     c.run('sudo apt install docker-ce', pty=True)
     c.run('sudo usermod -aG docker ${USER}', pty=True)
+
+
+@task
+def install_fasttext(c):
+    c.run('wget https://github.com/facebookresearch/fastText/archive/v0.1.0.zip')
+    c.run('unzip v0.1.0.zip')
+    c.run('cd fastText-0.1.0 && make')
+    c.run('rm v0.1.0.zip')
