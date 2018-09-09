@@ -39,8 +39,8 @@ def create_conda_env(c):
     env_name = 'ml'
     requirements_file = '/home/{}/requirements.txt'.format(USER)
     c.put('./requirements.txt', remote=requirements_file)
-    c.run('/home/re9ulus/miniconda3/bin/conda create --name {} -y'.format(env_name))
-    c.run('/home/re9ulus/miniconda3/bin/conda install --channel conda-forge --yes --file {} --name {}'.format(requirements_file, env_name))
+    c.run('/home/{user}/miniconda3/bin/conda create --name {} -y'.format(USER, env_name))
+    c.run('/home/{user}/miniconda3/bin/conda install --channel conda-forge --yes --file {} --name {}'.format(USER, requirements_file, env_name))
 
 
 @task
@@ -88,3 +88,21 @@ def install_fasttext(c):
     c.run('unzip v0.1.0.zip')
     c.run('cd fastText-0.1.0 && make')
     c.run('rm v0.1.0.zip')
+
+
+@task
+def install_mxnet(c, env_name='ml'):
+    """Install CPU version of mxnet to venv `ml`"""
+    prefix = 'source /home/{user}/miniconda3/bin/activate {env_name} && '.format(user=USER, env_name=env_name)
+    c.run('sudo apt-get install graphviz -y', pty=True)
+    # TODO: Try mxnet-mkl
+    c.run(prefix + 'pip install mxnet')
+    c.run(prefix + 'pip install graphviz')
+
+
+@task
+def install_pytorch(c, env_name='ml'):
+    """Install PyTorch withoug GPU support"""
+    prefix = 'source /home/{user}/miniconda3/bin/activate {env_name} && '.format(
+        user=USER, env_name=env_name)
+    c.run(prefix + '/home/{user}/miniconda3/bin/conda install pytorch-cpu torchvision-cpu -c pytorch'.format(user=USER))
