@@ -4,3 +4,5 @@ catboost
 xgboost
 lightgbm
 jupyter
+tensorflow
+matplotlib
