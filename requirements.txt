@@ -9,4 +9,3 @@ matplotlib
 pandas
 nltk
 keras-gpu
-keras
