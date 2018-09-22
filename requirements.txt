@@ -4,5 +4,8 @@ catboost
 xgboost
 lightgbm
 jupyter
-tensorflow
+tensorflow-gpu
 matplotlib
+pandas
+nltk
+keras-gpu
