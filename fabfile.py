@@ -112,6 +112,8 @@ def setup_docker(c):
     print('--- done setup docker')
 
 
+# update (2019) Use insturction from here https://askubuntu.com/questions/1077061/how-do-i-install-nvidia-and-cuda-drivers-into-ubuntu
+# and cuda 10
 @task
 def setup_cuda(c):
     # From https://www.tensorflow.org/install/gpu
