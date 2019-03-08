@@ -51,3 +51,25 @@ set number
 set wildmenu
 
 set lazyredraw
+
+""" jedi vim config
+let g:jedi#popup_on_dot = 0
+let g:jedi#popup_select_first = 0
+
+""" Syntactic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+""" Panes switch hotkeys
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+""" Relative line numbers
+set relativenumber
