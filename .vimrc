@@ -50,7 +50,7 @@ set smartindent
 set number
 set wildmenu
 
-set lazyredraw
+" set lazyredraw
 
 """ jedi vim config
 let g:jedi#popup_on_dot = 0
