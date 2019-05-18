@@ -27,6 +27,10 @@ Plugin 'chriskempson/base16-vim'
 " Supertab
 Plugin 'ervandew/supertab'
 
+" YouCompleteMe
+" If it fails with `The ycmd server SHUT DOWN` then run /usr/bin/python install.py in ~/.vim/plugged/YouCompleteMe
+Plugin 'Valloric/YouCompleteMe'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 """
