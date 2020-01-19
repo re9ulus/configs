@@ -46,6 +46,9 @@ let g:deoplete#enable_at_startup = 1
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+"Golang
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
 
 """
