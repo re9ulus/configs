@@ -8,8 +8,8 @@ Plug 'davidhalter/jedi-vim'
 " ctrlp
 Plug 'kien/ctrlp.vim'
 
-" vim-airline
-Plug 'vim-airline/vim-airline'
+" lightline  
+Plug 'itchyny/lightline.vim' 
 
 " base-16
 Plug 'chriskempson/base16-vim'
