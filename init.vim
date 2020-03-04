@@ -45,6 +45,15 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Ack
 Plug 'mileszs/ack.vim'
 
+" Easymotion
+Plug 'easymotion/vim-easymotion'   
+
+" Goyo, distruction free writing
+Plug 'junegunn/goyo.vim' 
+
+" Commentary
+Plug 'tpope/vim-commentary'  
+
 call plug#end()
 
 """
