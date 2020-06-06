@@ -66,7 +66,6 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'Shougo/denite.nvim'
 " EndTypescript
 
-
 call plug#end()
 
 syntax enable
@@ -81,18 +80,50 @@ set smartindent
 
 set number
 set wildmenu
+set cursorline
+set showmatch
+
+" folding
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
+" space open/close folds
+set foldmethod=indent
 
 """ jedi vim config
-let g:jedi#popup_on_dot = 0
-let g:jedi#popup_select_first = 0
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#popup_select_first = 0
+let g:jedi#use_splits_not_buffers = "bottom"
+" let g:jedi#show_call_signatures = 2
 
-let g:jedi#use_splits_not_buffers = "left"
+" deoplete is responsible for completion
+let g:jedi#completions_enabled = 0
+let g:deoplete#sources#jedi#show_docstring = 0
+
+""" START MAPPING
+
+" set leader key
+let mapleader="\<Space>"
 
 """ Panes switch hotkeys
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+" panel switch
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+
+" nerdtee
+nmap <leader>ne :NERDTreeToggle<CR>
+
+"folding/unfolding
+nnoremap <space>f za
+
+""" END MAPPING
 
 """ Relative line numbers
 set relativenumber
@@ -115,3 +146,4 @@ endif
 " Theme
 colorscheme OceanicNext
 """ EndColorScheme
+
