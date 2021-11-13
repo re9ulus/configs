@@ -14,29 +14,16 @@ Plug 'itchyny/lightline.vim'
 " colorscheme
 Plug 'mhartington/oceanic-next'
 
-" Supertab
-Plug 'ervandew/supertab'
-
 " CtrlSF
 Plug 'dyng/ctrlsf.vim'
 
-" Deoplete
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'deoplete-plugins/deoplete-jedi'  " python
+" Nim
+Plug 'alaviss/nim.nvim'
 
-" clang configuration
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-8/lib/libclang-8.so.1'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-8/include'
-Plug 'zchee/deoplete-clang'
-
-let g:deoplete#enable_at_startup = 1
-" End deoplete
+" Autocomplete (instead deoplete)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" rust
+Plug 'rust-lang/rust.vim'
 
 " FuzzyFileSearch
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -48,23 +35,12 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Ack
 Plug 'mileszs/ack.vim'
 
-" Easymotion
-Plug 'easymotion/vim-easymotion'
-
-" Goyo, distruction free writing
-Plug 'junegunn/goyo.vim'
-
 " Commentary
 Plug 'tpope/vim-commentary'
 
-" TypeScript
-" # REQUIRED: Add a syntax file. YATS is the best
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" For async completion
-" For Denite features
-Plug 'Shougo/denite.nvim'
-" EndTypescript
+" Telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
 
@@ -90,12 +66,11 @@ set foldnestmax=10
 " space open/close folds
 set foldmethod=indent
 
-""" jedi vim config
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#popup_select_first = 0
-let g:jedi#use_splits_not_buffers = "bottom"
-" let g:jedi#show_call_signatures = 2
+""" Relative line numbers
+set relativenumber
 
+""" jedi vim config
+let g:jedi#use_splits_not_buffers = "bottom"
 " deoplete is responsible for completion
 let g:jedi#completions_enabled = 0
 let g:deoplete#sources#jedi#show_docstring = 0
@@ -117,22 +92,83 @@ nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 
+" FZF
+nnoremap <leader>f :FZF<CR>
+
 " nerdtee
 nmap <leader>ne :NERDTreeToggle<CR>
 
+" quicksave
+nmap <leader>w :w<CR>
+
+" quick tab toggle
+nmap <leader><leader> <c-^>
+
 "folding/unfolding
-nnoremap <space>f za
+" nnoremap <space>f za
 
 """ END MAPPING
 
-""" Relative line numbers
-set relativenumber
+
+""" CocConfig
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+""" EndCocConfig
+
 
 """ Golang
 let g:go_fmt_command = "goimports"
 let g:go_auto_type_info = 1
 let g:go_def_mode = 'gopls'
 let g:go_info_mode = 'gopls'
+" required to correct work of go-coc and vim-go
+let g:go_def_mapping_enabled = 0
 
 """ ColorScheme
 " For Neovim 0.1.3 and 0.1.4
@@ -143,7 +179,13 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
+
 " Theme
 colorscheme OceanicNext
 """ EndColorScheme
 
+""" Configure telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
